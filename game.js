@@ -127,7 +127,7 @@ function jump(){
 
 }
 
-function handleInput(e){
+function handleGameInput(e){
 
     if(mcqActive) return;
 
@@ -147,15 +147,15 @@ function handleInput(e){
 
 }
 
-canvas.addEventListener(
+document.addEventListener(
     "touchstart",
-    handleInput,
+    handleGameInput,
     {passive:false}
 );
 
-canvas.addEventListener(
+document.addEventListener(
     "mousedown",
-    handleInput
+    handleGameInput
 );
 
 window.addEventListener("keydown",(e)=>{
@@ -164,7 +164,7 @@ window.addEventListener("keydown",(e)=>{
 
         e.preventDefault();
 
-        handleInput();
+        handleGameInput();
 
     }
 
@@ -277,6 +277,12 @@ function openQuestion(){
         btn.classList.add("choice");
 
         btn.innerHTML = choice;
+
+        btn.addEventListener("touchstart",(e)=>{
+
+            e.stopPropagation();
+
+        });
 
         btn.onclick = ()=>{
 
