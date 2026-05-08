@@ -129,6 +129,31 @@ function jump(){
 
 }
 
+function mobileJump(e){
+
+    e.preventDefault();
+
+    if(!gameStarted){
+
+        startGame();
+
+    }
+
+    jump();
+
+}
+
+window.addEventListener(
+    "touchstart",
+    mobileJump,
+    {passive:false}
+);
+
+window.addEventListener(
+    "mousedown",
+    mobileJump
+);
+
 window.addEventListener("keydown",(e)=>{
 
     if(e.code === "Space"){
@@ -144,34 +169,6 @@ window.addEventListener("keydown",(e)=>{
         jump();
 
     }
-
-});
-
-
-
-    window.addEventListener("touchstart",(e)=>{
-
-    e.preventDefault();
-
-    if(!gameStarted){
-
-        startGame();
-
-    }
-
-    jump();
-
-},{passive:false});
-
-window.addEventListener("click",()=>{
-
-    if(!gameStarted){
-
-        startGame();
-
-    }
-
-    jump();
 
 });
 

@@ -1,3 +1,11 @@
+html,body{
+
+    touch-action:none;
+
+    overflow:hidden;
+
+}
+
 body{
     margin:0;
     overflow:hidden;
@@ -7,6 +15,7 @@ body{
 
 canvas{
     position:absolute;
+    touch-action:none;
     top:0;
     left:0;
 }
