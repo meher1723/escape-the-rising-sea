@@ -16,9 +16,6 @@ const endScreen = document.getElementById("endScreen");
 const endTitle = document.getElementById("endTitle");
 const endMessage = document.getElementById("endMessage");
 
-let gameStarted = false;
-let gameEnded = false;
-
 const background = new Image();
 background.src = "assets/background.png";
 
@@ -31,15 +28,20 @@ playerImg.src = "assets/player.png";
 const heartImg = new Image();
 heartImg.src = "assets/heart.png";
 
+let gameStarted = false;
+let gameEnded = false;
+
 let score = 0;
 
 let lives = 4;
 
 let invincible = false;
 
-let seaRise = 0.01;
+let seaRise = 0;
 
 let waveOffset = 0;
+
+let gameSpeed = 10;
 
 let successfulJumps = 0;
 
@@ -49,13 +51,11 @@ let mcqActive = false;
 
 let obstacles = [];
 
-
-let gameSpeed = 10;
 let player = {
 
     x: 180,
 
-    y: canvas.height - 125,
+    y: canvas.height - 240,
 
     width: 80,
 
@@ -127,39 +127,36 @@ function jump(){
 
 }
 
-canvas.addEventListener("touchstart",(e)=>{
+function handleInput(e){
 
     if(mcqActive) return;
 
-    e.preventDefault();
+    if(e){
+
+        e.preventDefault();
+
+    }
 
     if(!gameStarted){
 
         startGame();
 
-        return;
-
     }
 
     jump();
 
-},{passive:false});
+}
 
-canvas.addEventListener("mousedown",()=>{
+canvas.addEventListener(
+    "touchstart",
+    handleInput,
+    {passive:false}
+);
 
-    if(mcqActive) return;
-
-    if(!gameStarted){
-
-        startGame();
-
-        return;
-
-    }
-
-    jump();
-
-});
+canvas.addEventListener(
+    "mousedown",
+    handleInput
+);
 
 window.addEventListener("keydown",(e)=>{
 
@@ -167,15 +164,7 @@ window.addEventListener("keydown",(e)=>{
 
         e.preventDefault();
 
-        if(!gameStarted){
-
-            startGame();
-
-            return;
-
-        }
-
-        jump();
+        handleInput();
 
     }
 
@@ -252,7 +241,7 @@ function endGame(){
     endTitle.innerHTML = "GAME TERMINATED";
 
     endMessage.innerHTML =
-    "The sea has risen beyond repair.<br><br>Thank you for playing :).";
+    "The sea has risen beyond repair.<br><br>Thank you for playing :)";
 
 }
 
@@ -265,7 +254,7 @@ function winGame(){
     endTitle.innerHTML = "CONGRATULATIONS";
 
     endMessage.innerHTML =
-    "You successfully survived the climate crisis and kept sea levels at bay (for now).<br><br>Thank you for playing :).";
+    "You successfully survived the climate crisis and kept sea levels at bay (for now).<br><br>Thank you for playing :)";
 
 }
 
@@ -307,18 +296,18 @@ function openQuestion(){
 
             currentQuestion++;
 
-           if(
-    currentQuestion >= questions.length &&
-    successfulJumps >= questions.length * 5
-){
+            if(
+                currentQuestion >= questions.length &&
+                successfulJumps >= questions.length * 5
+            ){
 
-    setTimeout(()=>{
+                setTimeout(()=>{
 
-        winGame();
+                    winGame();
 
-    },1200);
+                },1200);
 
-}
+            }
 
         };
 
@@ -381,28 +370,22 @@ function update(){
 
             o.passed = true;
 
-            
-successfulJumps++;
+            successfulJumps++;
 
-console.log("Jumps:", successfulJumps);
+            if(
+                successfulJumps > 0 &&
+                successfulJumps % 5 === 0 &&
+                currentQuestion < questions.length &&
+                !mcqActive
+            ){
 
-if(
-    successfulJumps > 0 &&
-    successfulJumps % 5 === 0 &&
-    currentQuestion < questions.length &&
-    !mcqActive
-){
+                setTimeout(()=>{
 
-    mcqActive = true;
+                    openQuestion();
 
-    setTimeout(()=>{
+                },300);
 
-        openQuestion();
-
-    },300);
-
-}
-           
+            }
 
         }
 
@@ -520,11 +503,12 @@ function drawObstacles(){
 }
 
 function drawPlayer(){
-if(invincible){
 
-    ctx.globalAlpha = 0.5;
+    if(invincible){
 
-}
+        ctx.globalAlpha = 0.5;
+
+    }
 
     ctx.drawImage(
 
@@ -537,7 +521,9 @@ if(invincible){
         player.height
 
     );
-ctx.globalAlpha = 1;
+
+    ctx.globalAlpha = 1;
+
 }
 
 function drawLives(){
