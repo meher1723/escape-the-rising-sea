@@ -101,13 +101,11 @@ answer:0
 
 function startGame(){
 
-    if(!gameStarted){
+    if(gameStarted) return;
 
-        gameStarted = true;
+    gameStarted = true;
 
-        introScreen.style.display = "none";
-
-    }
+    introScreen.style.display = "none";
 
 }
 
@@ -129,36 +127,39 @@ function jump(){
 
 }
 
-function mobileJump(e){
+canvas.addEventListener("touchstart",(e)=>{
 
-    if(!mcqActive){
+    if(mcqActive) return;
 
     e.preventDefault();
-
-}
-
-}
 
     if(!gameStarted){
 
         startGame();
 
+        return;
+
     }
 
     jump();
 
+},{passive:false});
 
+canvas.addEventListener("mousedown",()=>{
 
-canvas.addEventListener(
-    "touchstart",
-    mobileJump,
-    {passive:false}
-);
+    if(mcqActive) return;
 
-canvas.addEventListener(
-    "mousedown",
-    mobileJump
-);
+    if(!gameStarted){
+
+        startGame();
+
+        return;
+
+    }
+
+    jump();
+
+});
 
 window.addEventListener("keydown",(e)=>{
 
@@ -169,6 +170,8 @@ window.addEventListener("keydown",(e)=>{
         if(!gameStarted){
 
             startGame();
+
+            return;
 
         }
 
