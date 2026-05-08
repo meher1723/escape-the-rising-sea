@@ -131,7 +131,13 @@ function jump(){
 
 function mobileJump(e){
 
+    if(!mcqActive){
+
     e.preventDefault();
+
+}
+
+}
 
     if(!gameStarted){
 
@@ -141,7 +147,7 @@ function mobileJump(e){
 
     jump();
 
-}
+
 
 window.addEventListener(
     "touchstart",
