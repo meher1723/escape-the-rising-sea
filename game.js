@@ -149,13 +149,13 @@ function mobileJump(e){
 
 
 
-window.addEventListener(
+canvas.addEventListener(
     "touchstart",
     mobileJump,
     {passive:false}
 );
 
-window.addEventListener(
+canvas.addEventListener(
     "mousedown",
     mobileJump
 );
