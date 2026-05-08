@@ -147,6 +147,22 @@ window.addEventListener("keydown",(e)=>{
 
 });
 
+
+
+    window.addEventListener("touchstart",(e)=>{
+
+    e.preventDefault();
+
+    if(!gameStarted){
+
+        startGame();
+
+    }
+
+    jump();
+
+},{passive:false});
+
 window.addEventListener("click",()=>{
 
     if(!gameStarted){
