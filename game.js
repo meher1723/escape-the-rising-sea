@@ -352,6 +352,11 @@ function update(){
         player.grounded = true;
 
     }
+    if(mcqActive){
+
+    return;
+
+}
 
     obstacles.forEach((o)=>{
 
